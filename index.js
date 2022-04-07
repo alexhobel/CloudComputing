@@ -1,17 +1,24 @@
 const express = require('express');
 const app = express();
 const http = require('http');
+const path = require('path');
+const url = require('url');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
-
+const registerRoute = require('./Routes/RegisterRoute');
 
 //static middleware for external css instead of Route
-app.use(express.static("Frontend"));
+app.use(bodyParser.json());
+app.use('/register', registerRoute);
+//To Connect to DB
+mongoose.connect('mongodb://127.0.0.1:27017/CC_Aufgabe1');
 
-/* app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/Frontend/index.html');
-}); */
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/Frontend/register.html');
+});
 
 io.on('connection', (socket) => {
   console.log('a user connected');
