@@ -28,28 +28,17 @@ router.post('/', async (req, res) => {
     //Hashing Password by using SHA512
    const passwordHashed = crypto.createHash("SHA512").update(password).digest();
    const passwordForDB = passwordHashed.toString('hex');
-   const path = "/Users/AlexMacBook/Desktop/Uni/Semester 6/Cloud Computing/Aufgabe1/cloudcomputing/Frontend/index.html"
     try{
         const response = await User.create({
             username,
             password: passwordForDB
         })
-        console.log('User created successfully: ', response)
+        console.log("User created successfully");
+        res.redirect("/index");
     }catch(error){
         console.log(error)
         return res.json({ status: 'error'})
     }
-
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    fs.readFile(path, null, function(error, data) {
-        if(error){
-            res.writeHead(404);
-            res.write('File not found');
-        }else {
-            res.write(data);
-        }
-        res.end();
-    })
 
 })
 
