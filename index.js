@@ -9,7 +9,7 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 const registerRoute = require('./Routes/RegisterRoute');
-const logInRoute = require('./Routes/LoginRoute')
+const logInRoute = require('./Routes/LoginRoute');
 
 //static middleware for external css instead of Route
 app.use(bodyParser.json());
@@ -17,7 +17,6 @@ app.use('/register', registerRoute);
 app.use('/logIn', logInRoute);
 //To Connect to DB
 mongoose.connect('mongodb://127.0.0.1:27017/CC_Aufgabe1');
-
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/Frontend/login_register.html');
@@ -35,9 +34,12 @@ app.get('/logIn', (req,res) => {
   res.sendFile(__dirname + '/Frontend/logIn.html');
 });
 
-app.post('/register', (req, res) => {
-  console.log("/register");
-  res.sendFile(__dirname + '/Frontend/logIn.html');
+app.get('/register', (req, res) => {
+  res.sendFile(__dirname + '/Frontend/register.html');
+});
+
+app.get('/chatroom', (req, res) => {
+  res.sendFile(__dirname + '/Frontend/index.html')
 })
 
 io.on('connection', (socket) => {

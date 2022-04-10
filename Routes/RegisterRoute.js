@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
             password: passwordForDB
         })
         console.log("User created successfully");
-        res.redirect("/index");
+        return res.redirect(307, '/chatroom');
     }catch(error){
         console.log(error)
         return res.json({ status: 'error'})

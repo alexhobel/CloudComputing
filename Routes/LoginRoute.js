@@ -30,7 +30,7 @@ router.post('/', async (req, res) => {
          id: user._id,
          username: user.username
     }, JWT_SECRET);
-    res.json({ status: 'ok ', data: token})
+    res.redirect(307, '/chatroom');
 })
 
 module.exports = router;
