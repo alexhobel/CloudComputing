@@ -33,9 +33,12 @@
 						username,
 						password
 					})
-				})
-				
-				console.log(result);
+					}).then((res) => {
+					if(res.status === 200){
+						window.location.assign("/chatroom")
+					} else {
+						alert("Path invalid");
+					}})		
 			}
 		</script> 
 	</body>

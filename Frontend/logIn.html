@@ -34,10 +34,14 @@
 						username,
 						password
 					})
-				}).then((res) => res.json())
+				}).then((result) => {
+					if(result.status === 200){
+						window.location.assign("/chatroom")
+					} else {
+						alert("Not registrated");
+					}})		
                 
 				if (result.status === 'ok') {
-					// everythign went fine
                     console.log('Got the Token')
 					alert('Success')
 				} else {

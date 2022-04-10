@@ -34,12 +34,11 @@ router.post('/', async (req, res) => {
             password: passwordForDB
         })
         console.log("User created successfully");
-        return res.redirect(307, '/chatroom');
+        res.sendStatus(200);
     }catch(error){
         console.log(error)
         return res.json({ status: 'error'})
     }
-
 })
 
 module.exports = router;

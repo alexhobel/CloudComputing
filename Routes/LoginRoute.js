@@ -17,20 +17,23 @@ router.post('/', async (req, res) => {
     const user = await User.findOne({ username }).lean()//.lean gibt nur json zurück
     if(!user){
         console.log("Invalid User");
-        return res.json({ status: 'error', error: 'Invalid username/Password'})
+        return res.sendStatus(401);
     }
     const passwordHashed = crypto.createHash("SHA512").update(passwordFromClient).digest();
     const password = passwordHashed.toString('hex');
     const passwordInDb = await User.findOne({ password }).lean()//.lean gibt nur json zurück
     if(!passwordInDb){
         console.log("Invalid Password");
-        return res.json({ status: 'error', error: 'Invalid username/Password'})
+        return res.sendStatus(401);
     }
     const token = jwt.sign({
          id: user._id,
          username: user.username
     }, JWT_SECRET);
-    res.redirect(307, '/chatroom');
+    if(user && passwordInDb){
+        res.sendStatus(200);
+    }
+    
 })
 
 module.exports = router;
