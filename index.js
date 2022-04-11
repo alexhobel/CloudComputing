@@ -13,14 +13,16 @@ const registerRoute = require('./Routes/RegisterRoute');
 const logInRoute = require('./Routes/LoginRoute');
 const https = require('https');
 
-//static middleware for external css instead of Route
+//To Connect to DB
+mongoose.connect('mongodb://127.0.0.1:27017/CC_Aufgabe1', () => {
+  console.log("DB is connected");
+});
+
+//Routes
 app.use(bodyParser.json());
 app.use('/register', registerRoute);
 app.use('/logIn', logInRoute);
-//To Connect to DB
-mongoose.connect('mongodb://127.0.0.1:27017/CC_Aufgabe1');
 
-//Routes
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/Frontend/login_register.html');
 });

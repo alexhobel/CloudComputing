@@ -14,9 +14,17 @@
 		</form>
 
 		<script>
+			
 			const form = document.getElementById('reg-form')
 			form.addEventListener('submit', registerUser)
-
+			/**
+			 * Asynchronus Function to fetch the given Username and Password to Server
+			 *
+			 * Reads the given Values in from Formular. Than the Data will sent to the Server as JSON on path /register with a post request by using fetch().
+			 * After that, the function checks the response from the Server on Status Codes. If the Server sends a 200 Code, the Client will see the Chatroom on path /chatroom.
+			 * If the Server sends a 401 Code, there will be an alert that the Username is not Valid. If the Server send a 402 Code, there will be an alert that the Format for the Password or Username is not correct.
+			 * If the Server sends a 403 Code, there will be an alert that the Password is too short.
+			 */
 			async function registerUser(event) {
 				event.preventDefault()
 				//Get the Value of the HTML Elements to put them in JSON File
@@ -36,8 +44,14 @@
 					}).then((res) => {
 					if(res.status === 200){
 						window.location.assign("/chatroom")
-					} else {
-						alert("Path invalid");
+					} else if(res.status === 401){
+						alert("Username already exists");
+					}else if(res.status === 402){
+						alert("Wrong Format for the Username/Password");
+					}else if(res.status === 403){
+						alert("Password must be at least 6 Characters long");
+					}else{
+						alert("Error");
 					}})		
 			}
 		</script> 

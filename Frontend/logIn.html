@@ -18,6 +18,13 @@
 			const form = document.getElementById('login')
 			form.addEventListener('submit', login)
 
+			/**
+			 * Asynchronus Function to fetch the given Username and Password to Server
+			 *
+			 * Reads the given Values in from Formular. Than the Data will sent to the Server as JSON on path /login with a post request by using fetch().
+			 * After that, the function checks the response from the Server on Status Codes. If the Server sends a 200 Code, the Client will see the Chatroom on path /chatroom.
+			 * If the Server sends another Code, the user is not registrated
+			 */
 			async function login(event) {
 				event.preventDefault()
 				//Get the Value of the HTML Elements to put them in JSON File
@@ -35,18 +42,12 @@
 						password
 					})
 				}).then((result) => {
+					console.log(typeof(result.status));
 					if(result.status === 200){
 						window.location.assign("/chatroom")
 					} else {
 						alert("Not registrated");
 					}})		
-                
-				if (result.status === 'ok') {
-                    console.log('Got the Token')
-					alert('Success')
-				} else {
-					alert(result.error)
-				}
 			}
 		</script>
 </body>
