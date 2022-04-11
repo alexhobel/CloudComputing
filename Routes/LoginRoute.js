@@ -8,6 +8,7 @@ const User = require('../Models/user');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
 
+
 const JWT_SECRET = 'ugzsdU789hdu@isjEgzhsu€$%&jds/&%$§'
 
 

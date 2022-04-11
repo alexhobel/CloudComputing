@@ -3,6 +3,7 @@ const app = express();
 const http = require('http');
 const path = require('path');
 const url = require('url');
+const fs = require('fs');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const server = http.createServer(app);
@@ -10,6 +11,7 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 const registerRoute = require('./Routes/RegisterRoute');
 const logInRoute = require('./Routes/LoginRoute');
+const https = require('https');
 
 //static middleware for external css instead of Route
 app.use(bodyParser.json());
@@ -18,6 +20,7 @@ app.use('/logIn', logInRoute);
 //To Connect to DB
 mongoose.connect('mongodb://127.0.0.1:27017/CC_Aufgabe1');
 
+//Routes
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/Frontend/login_register.html');
 });
@@ -71,6 +74,12 @@ io.on('connection', (socket) => {
     });
 });
 
-server.listen(3000, () => {
-  console.log('listening on *:3000');
-});
+//https Server
+const sslServer = https.createServer({
+  key: fs.readFileSync(path.join(__dirname, 'ssl', 'key.pem')),
+  cert: fs.readFileSync(path.join(__dirname, 'ssl', 'cert.pem')),
+  },
+  app
+)
+
+sslServer.listen(3000, () => console.log('SSL Server on Port 3000'));
