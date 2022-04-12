@@ -70,6 +70,12 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('hi');
 });
 
+/**
+ * Catching Events from Frontend here and send the payloads back to every Client
+ *
+ * With io.emit, the Payload gets back to the Chatroom so every Client can see the incoming Message. It is possible to den multi-media Files.
+ * There are different Events for different File Types so the Frontend Code can handle them.
+ */
 io.on('connection', (socket) => {
     socket.on('chat message', (msg) => {
       io.emit('chat message', msg);
