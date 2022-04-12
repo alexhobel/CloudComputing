@@ -65,7 +65,7 @@ io.on('connection', (socket) => {
 });
 
 io.emit('some event', { someProperty: 'some value', otherProperty: 'other value' }); // This will emit the event to all connected sockets
-
+//Socket ist Verbindung "on" heisst man will etwas fangen. Wenn sendFile Event eintritt wird Socket aktiviert
 io.on('connection', (socket) => {
     socket.broadcast.emit('hi');
 });
@@ -74,14 +74,23 @@ io.on('connection', (socket) => {
     socket.on('chat message', (msg) => {
       io.emit('chat message', msg);
     });
+    socket.on("sendImage", (imageUrl) => {
+      console.log("File: " + imageUrl);
+      io.emit("sendImage", imageUrl);
+    });
+});
+
+//http Server
+server.listen(3000, () => {
+  console.log('listening on *:3000');
 });
 
 //https Server
-const sslServer = https.createServer({
-  key: fs.readFileSync(path.join(__dirname, 'ssl', 'key.pem')),
-  cert: fs.readFileSync(path.join(__dirname, 'ssl', 'cert.pem')),
+/* const sslServer = https.createServer({
+  key: fs.readFileSync(path.join(__dirname, 'tls/ssl', 'key.pem')),
+  cert: fs.readFileSync(path.join(__dirname, 'tls/ssl', 'cert.pem')),
   },
   app
 )
 
-sslServer.listen(3000, () => console.log('SSL Server on Port 3000'));
+sslServer.listen(3000, () => console.log('Server on Port 3000')); */

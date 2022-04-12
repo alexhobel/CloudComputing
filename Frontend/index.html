@@ -20,28 +20,52 @@
     <form id="form" action="">
       <input id="input" autocomplete="off" /><button>Send</button>
     </form>
-    <script src="/socket.io/socket.io.js"></script>
+    <input id="file" type="file" multiple/>
+    <script src=/socket.io/socket.io.js></script>
     <script>
-  var socket = io();
+      var socket = io();
 
-  var messages = document.getElementById('messages');
-  var form = document.getElementById('form');
-  var input = document.getElementById('input');
+      var messages = document.getElementById('messages');
+      var form = document.getElementById('form');
+      var input = document.getElementById('input');
+      var fileUpload = document.getElementById("file");
 
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    if (input.value) {
-      socket.emit('chat message', input.value);
-      input.value = '';
-    }
-  });
+      //Listens to 'send' button in Chatroom
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        sendMultimediaFiles();
+        if (input.value) {
+          socket.emit('chat message', input.value);
+          input.value = '';
+        }
+      });
 
-  socket.on('chat message', function(msg) {
-    var item = document.createElement('li');
-    item.textContent = msg;
-    messages.appendChild(item);
-    window.scrollTo(0, document.body.scrollHeight);
-  });
-</script>
+      socket.on('chat message', function(msg) {
+        var item = document.createElement('li');
+        item.textContent = msg;
+        messages.appendChild(item);
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+
+      socket.on('sendImage', function(imageUrl){
+        var image = new Image();
+        image.height = 120;
+        image.width = 120;
+        image.src = imageUrl;
+        messages.appendChild(image);
+        console.log(image);         
+      })
+
+      function sendMultimediaFiles(){
+        //größer 0 um zu checken ob files da sind
+        if(fileUpload.files.length > 0){
+          const fileToSend = fileUpload.files[0];//First Element in files[]
+          var imageUrl = URL.createObjectURL(fileToSend); //generate URL for blob
+          socket.emit("sendImage", imageUrl);//SendImage Event .emit to catch the Event on Server-Side
+        }
+      }
+
+
+    </script>
   </body>
 </html>
