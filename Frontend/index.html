@@ -47,6 +47,7 @@
         window.scrollTo(0, document.body.scrollHeight);
       });
 
+      //Function to get an Image File from the Server
       socket.on('sendImage', function(imageUrl){
         var image = new Image();
         image.height = 120;
@@ -56,12 +57,31 @@
         console.log(image);         
       })
 
+      //Function to get an Audio File from the Server
+      socket.on('sendAudio', function(audioFile){
+        const audioHTML = document.createElement('audio');
+        audioHTML.id = 'audioPlayer';
+        audioHTML.src = audioFile;
+        audioHTML.innerHTML = "mp3";
+        audioHTML.controls = 'controls';
+        messages.appendChild(audioHTML);
+      })
+
       function sendMultimediaFiles(){
-        //größer 0 um zu checken ob files da sind
+        //If the HTML 'files'-ID is bigger than 0, there are files to send
         if(fileUpload.files.length > 0){
+
           const fileToSend = fileUpload.files[0];//First Element in files[]
-          var imageUrl = URL.createObjectURL(fileToSend); //generate URL for blob
-          socket.emit("sendImage", imageUrl);//SendImage Event .emit to catch the Event on Server-Side
+          console.log(fileToSend.type.split("/")[0]);
+          const fileToSendType = fileToSend.type.split("/")[0];//Gets the file Type 
+
+          if(fileToSendType == "image"){
+            var imageUrl = URL.createObjectURL(fileToSend); //generate URL for blob
+            socket.emit("sendImage", imageUrl);//SendImage Event .emit to catch the Event on Server-Side
+          }else if(fileToSendType == "audio"){
+            var audioUrl = URL.createObjectURL(fileToSend);
+            socket.emit("sendAudio", audioUrl);
+          }
         }
       }
 

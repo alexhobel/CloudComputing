@@ -75,9 +75,13 @@ io.on('connection', (socket) => {
       io.emit('chat message', msg);
     });
     socket.on("sendImage", (imageUrl) => {
-      console.log("File: " + imageUrl);
+      console.log("Image blob: " + imageUrl);
       io.emit("sendImage", imageUrl);
     });
+    socket.on("sendAudio", (audioUrl) => {
+      console.log("Audio blob: " + audioUrl);
+      io.emit("sendAudio", audioUrl);
+    })
 });
 
 //http Server
