@@ -106,7 +106,7 @@
       /**
        * The Function checks if there are Files to send and sends them to the Server
        *
-       * If there is a first Element in the Files Array, there are Files to send. 
+       * Checks if there is a File on the html input html with id 'file'
        * By using the .type() function you get the Type of the File. Than you have to split by the first Character of "/" to get the Internet Media Type (MIME).
        * With the MIME type you can choose if you have an image, video or audio file without any types like .wav, .jpeg... . 
        * When we are at the correct file type point, we will create a URL for the file. This URL will be sent to the Server. 
