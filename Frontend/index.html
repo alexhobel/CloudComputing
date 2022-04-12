@@ -50,21 +50,35 @@
       //Function to get an Image File from the Server
       socket.on('sendImage', function(imageUrl){
         var image = new Image();
-        image.height = 120;
-        image.width = 120;
+        image.height = 400;
+        image.width = 400;
         image.src = imageUrl;
         messages.appendChild(image);
         console.log(image);         
       })
 
       //Function to get an Audio File from the Server
-      socket.on('sendAudio', function(audioFile){
+      socket.on('sendAudio', function(audioUrl){
+        //Create a html Audio Element
         const audioHTML = document.createElement('audio');
+        //html atteibutes
         audioHTML.id = 'audioPlayer';
-        audioHTML.src = audioFile;
+        audioHTML.src = audioUrl;
         audioHTML.innerHTML = "mp3";
         audioHTML.controls = 'controls';
+        //append it to messages List of Chatroom
         messages.appendChild(audioHTML);
+      })
+
+      //Function to get a Video File from Server
+      socket.on('sendVideo', function(videoUrl){
+        //Create a Video HTML Element
+        const videoHTML = document.createElement('video');
+        videoHTML.src = videoUrl;
+        videoHTML.controls = 'controls';
+        videoHTML.height = 400;
+        videoHTML.width = 400;
+        messages.appendChild(videoHTML);
       })
 
       function sendMultimediaFiles(){
@@ -81,6 +95,9 @@
           }else if(fileToSendType == "audio"){
             var audioUrl = URL.createObjectURL(fileToSend);
             socket.emit("sendAudio", audioUrl);
+          }else if(fileToSendType == "video"){
+            var videoUrl = URL.createObjectURL(fileToSend);
+            socket.emit("sendVideo", videoUrl);
           }
         }
       }

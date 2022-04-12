@@ -81,6 +81,10 @@ io.on('connection', (socket) => {
     socket.on("sendAudio", (audioUrl) => {
       console.log("Audio blob: " + audioUrl);
       io.emit("sendAudio", audioUrl);
+    });
+    socket.on("sendVideo", (videoUrl) => {
+      console.log("Video blob: " + videoUrl);
+      io.emit("sendVideo", videoUrl);
     })
 });
 
