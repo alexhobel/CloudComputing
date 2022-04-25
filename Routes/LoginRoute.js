@@ -5,8 +5,9 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 const User = require('../Models/user');
-const fs = require('fs');
-const jwt = require('jsonwebtoken');
+const index = require('../index');
+
+const signInCounter = index.signInCounter;
 
 /**
  * Takes post request on path /logIn
@@ -39,9 +40,9 @@ router.post('/', async (req, res) => {
         return res.sendStatus(401);
     }
     if(user && passwordInDb){
+        signInCounter.inc(1);
         return res.sendStatus(200);
     }
-    
 })
 
 module.exports = router;

@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 const User = require('../Models/user');
-const fs = require('fs');
 
 /**
  * Takes post request on path /register

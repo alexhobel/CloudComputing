@@ -1,9 +1,6 @@
 const express = require('express');
 const app = express();
 const http = require('http');
-const path = require('path');
-const url = require('url');
-const fs = require('fs');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const server = http.createServer(app);
@@ -11,6 +8,7 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 const registerRoute = require('./Routes/RegisterRoute');
 const logInRoute = require('./Routes/LoginRoute');
+const client = require('prom-client');
 const https = require('https');
 
 //To Connect to DB
@@ -91,14 +89,38 @@ io.on('connection', (socket) => {
     socket.on("sendVideo", (videoUrl) => {
       console.log("Video blob: " + videoUrl);
       io.emit("sendVideo", videoUrl);
+
     })
 });
+//Prometheus
+
+
+const register = new client.Registry();
+
+register.setDefaultLabels({
+    app: 'chat_server'
+});
+
+const signInCounter = new client.Counter({
+    name: "signInCounter",
+    help: "Counter for new User"
+});
+
+register.registerMetric(signInCounter);
+client.collectDefaultMetrics( {register} );
+
+app.get('/metrics', async (req, res) =>{
+  res.setHeader('Content-Type', register.contentType);
+  res.send(await register.metrics());
+});
+
 
 //http Server
 server.listen(3000, () => {
   console.log('listening on *:3000');
 });
 
+exports.signInCounter = signInCounter;
 //https Server
 /* const sslServer = https.createServer({
   key: fs.readFileSync(path.join(__dirname, 'tls/ssl', 'key.pem')),
