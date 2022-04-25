@@ -1,0 +1,23 @@
+version: "3.9"
+volumes:
+  prometheus-data: 
+services:
+
+  server:
+    container_name: Server
+    image: node
+    build:
+      context: .
+      dockerfile: DockerfileServer
+    command: "node index.js"
+    working_dir: /app/
+    ports:
+      - "3000:3000"
+    depends_on:
+    - datenbank
+
+  datenbank:
+    image: 'mongo'
+    ports:
+      - "27017:27017"
+
