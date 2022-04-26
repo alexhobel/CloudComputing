@@ -1,4 +1,0 @@
-FROM node 
-COPY ./cloudcomputing/ /app/
-WORKDIR /app/
-RUN npm install

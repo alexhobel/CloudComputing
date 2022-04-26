@@ -6,7 +6,7 @@ services:
     image: node
     build:
       context: .
-      dockerfile: DockerfileServer
+      dockerfile: cloudcomputing/DockerfileServer
     command: "node index.js"
     working_dir: /app/
     ports:
