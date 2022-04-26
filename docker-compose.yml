@@ -1,6 +1,4 @@
 version: "3.9"
-volumes:
-  prometheus-data: 
 services:
 
   server:
@@ -13,11 +11,17 @@ services:
     working_dir: /app/
     ports:
       - "3000:3000"
+    volumes:
+      - .:/usr/src/app
     depends_on:
-    - datenbank
-
+      - datenbank
+ 
   datenbank:
     image: 'mongo'
     ports:
       - "27017:27017"
+    volumes:
+      - userdata:/data/db
 
+volumes:
+  userdata:

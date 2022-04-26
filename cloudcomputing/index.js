@@ -10,8 +10,9 @@ const registerRoute = require('./Routes/RegisterRoute');
 const logInRoute = require('./Routes/LoginRoute');
 const https = require('https');
 
+
 //To Connect to DB
-mongoose.connect('mongodb://127.0.0.1:27017/CC_Aufgabe1', () => {
+mongoose.connect('mongodb://mongodb:127.0.0.1:27017/', () => {
   console.log("DB is connected");
 });
 
@@ -92,12 +93,10 @@ io.on('connection', (socket) => {
     })
 });
 
-
 //http Server
 server.listen(3000, () => {
   console.log('listening on *:3000');
 });
-
 
 //https Server
 /* const sslServer = https.createServer({

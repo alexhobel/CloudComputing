@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "prom-client": "^14.0.1",
-    "prometheus": "^0.1.7"
+    "mongoose": "^6.3.1"
   }
 }

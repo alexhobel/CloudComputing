@@ -5,9 +5,6 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 const User = require('../Models/user');
-const index = require('../index');
-
-const signInCounter = index.signInCounter;
 
 /**
  * Takes post request on path /logIn
@@ -40,7 +37,6 @@ router.post('/', async (req, res) => {
         return res.sendStatus(401);
     }
     if(user && passwordInDb){
-
         return res.sendStatus(200);
     }
 })

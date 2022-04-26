@@ -10,7 +10,7 @@
         "fs": "*",
         "https": "^1.0.0",
         "jsonwebtoken": "^8.5.1",
-        "mongoose": "^6.2.10",
+        "mongoose": "^6.3.1",
         "nodemon": "^2.0.15",
         "passport": "^0.5.2",
         "passport-local": "^1.0.0",
