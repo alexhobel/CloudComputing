@@ -14,14 +14,26 @@ services:
     volumes:
       - .:/usr/src/app
     depends_on:
-      - datenbank
- 
-  datenbank:
-    image: 'mongo'
-    ports:
-      - "27017:27017"
+      - mongo
+  
+  nginx:
+      build:
+        context: .
+        dockerfile: DockerfileNginx
+      container_name: nginx
+      hostname: nginx
+      ports:
+          - "80:80" 
+      depends_on:
+          - server
+  
+  mongo:
+    image: mongo
     volumes:
-      - userdata:/data/db
+      - ./userdata:/data/db
+    ports:
+      - "27017:27017"    
+
 
 volumes:
   userdata:

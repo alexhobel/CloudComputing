@@ -27,6 +27,7 @@ const User = require('../Models/user');
 router.post('/', async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
+    console.log(req.body);
     //Check for Payloads Format
     if(typeof username !== 'string'){
         return res.sendStatus(402);
@@ -48,7 +49,7 @@ router.post('/', async (req, res) => {
         console.log("User created successfully");
         return res.sendStatus(200);
     }catch(error){
-        console.log("Username Already exists")
+        console.log(error);
         return res.sendStatus(401);
     }
 })
