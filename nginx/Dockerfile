@@ -1,2 +1,2 @@
 FROM nginx:alpine
-COPY nginx.conf /usr/src/app
+COPY nginx.conf /etc/nginx/nginx.conf
