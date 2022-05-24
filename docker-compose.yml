@@ -1,13 +1,5 @@
 version: "3.9"
-services:
-    
-  mongo:
-    image: mongo
-    volumes:
-      - ./userdata:/data/db
-    ports:
-      - "27017:27017"    
-
+services:    
   nginx:
     build: ./nginx 
     links:
@@ -53,12 +45,18 @@ services:
       - "3000"
     environment:
       - NAME=four
+  
+  mongo:
+    image: mongo
+    volumes:
+      - ./userdata:/data/db
+    ports:
+      - "27017:27017"    
 
   redis:
     image: redis:alpine
     expose:
       - "6379"
-
 
 volumes:
   userdata:

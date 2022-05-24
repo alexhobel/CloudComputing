@@ -9,7 +9,17 @@ const io = new Server(server);
 const registerRoute = require('./Routes/RegisterRoute');
 const logInRoute = require('./Routes/LoginRoute');
 const https = require('https');
+const redis = require('socket.io-redis');
+var port = process.env.PORT || 3000;
+var serverName = process.env.NAME || 'Unknown';
 
+io.adapter(redis({ host: 'redis', port: 6379 }));
+
+//http Server
+server.listen(port, function () {
+  console.log('Server listening at port %d', port);
+  console.log('Hello, I\'m %s, how can I help?', serverName);
+});
 
 //To Connect to DB
 mongoose.connect('mongodb://mongo:27017/');
@@ -91,10 +101,7 @@ io.on('connection', (socket) => {
     })
 });
 
-//http Server
-server.listen(3000, () => {
-  console.log('listening on *:3000');
-});
+
 
 //https Server
 /* const sslServer = https.createServer({
