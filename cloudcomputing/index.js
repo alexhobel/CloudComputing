@@ -13,6 +13,7 @@ const redis = require('socket.io-redis');
 var port = process.env.PORT || 3000;
 var serverName = process.env.NAME || 'Unknown';
 
+//Redis Adapter so every packet is sent to all matching clients connected to the current Server
 io.adapter(redis({ host: 'redis', port: 6379 }));
 
 //http Server
