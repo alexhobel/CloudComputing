@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: redis-credentials
+  namespace: default
+stringData:
+  HOST: "172.21.46.197"
+  PORT: "30494"
+type: Opaque
